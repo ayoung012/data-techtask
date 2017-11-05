@@ -1,6 +1,16 @@
 FROM jupyter/base-notebook:latest
 
-COPY src:/home/jovyan/work
+USER root
+
+RUN apt-get update && apt-get -yq dist-upgrade \
+ && apt-get install -yq --no-install-recommends \
+    zip unzip \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
+
+USER $NB_USER
+
+COPY src /home/jovyan/work
 
 # We want the data to be downloaded when running this container, and downloaded to within
 # the container, seperate from the build process

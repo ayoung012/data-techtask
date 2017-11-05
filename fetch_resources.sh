@@ -13,13 +13,16 @@ echo Downloading World Food Facts dataset, this may take a while...
 wget $DATA_FOLDER/$DATA_ZIP
 
 echo Unzipping facts archive...
-unzip $DATA_FILENAME
+unzip $DATA_ZIP
 
 echo Number of lines to import:
-cat DATA_TSV | wc -l
+cat $DATA_TSV | wc -l
 
 echo Importing food facts into an SQLite file...
-sqlite3 -separator $'\t' $DB ".import $DATA_TSV $TBL"
+sqlite3 $DB <<EOF
+    .mode tabs
+    .import $DATA_TSV $TBL
+EOF
 
 echo Done.
 
