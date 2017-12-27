@@ -18,7 +18,7 @@ unzip $DATA_ZIP
 echo Removing all quotes, not required for this analysis
 sed -i 's/"//g' $DATA_TSV
 
-echo Number of lines to import (including header):
+echo Number of lines to import \(including header\):
 cat $DATA_TSV | wc -l
 
 echo Importing food facts into an SQLite file...
