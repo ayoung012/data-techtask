@@ -4,7 +4,7 @@ USER root
 
 RUN apt-get update && apt-get -yq dist-upgrade \
  && apt-get install -yq --no-install-recommends \
-    zip unzip \
+    zip unzip python-numpy python3-bs4 python-tabulate \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
