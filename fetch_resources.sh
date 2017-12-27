@@ -15,22 +15,27 @@ wget $DATA_FOLDER/$DATA_ZIP
 echo Unzipping facts archive...
 unzip $DATA_ZIP
 
-echo Number of lines to import:
+echo Removing all quotes, not required for this analysis
+sed -i 's/"//g' $DATA_TSV
+
+echo Number of lines to import (including header):
 cat $DATA_TSV | wc -l
 
 echo Importing food facts into an SQLite file...
-sqlite3 $DB <<EOF
-    .mode tabs
-    .import $DATA_TSV $TBL
+
+
+sqlite3 $DB -batch $1 <<EOF
+.mode tabs
+.import ${DATA_TSV} ${TBL}
+
 EOF
 
 echo Done.
 
 echo Number of lines successfully imported to sqlite:
-sqlite3 test.db  "select count(*) from $TBL"
+sqlite3 $DB  "select count(*) from $TBL"
 
 echo Head into the Jupyter Notebook for further analysis.
 
 echo Passing on to Jupyter Notebook start script...
-
 
